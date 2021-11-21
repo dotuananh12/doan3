@@ -1,0 +1,357 @@
+﻿@model IEnumerable<project3.Models.ChiTietHoSo>
+@using project3.Models;
+
+@{
+    Model1 db = new Model1();
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Chi Tiết Hồ Sơ | ADMIN</title>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="">
+        <header class="main-header">
+            <a href="../../index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-lg"><b>Admin</b>LTE</span>
+            </a>
+
+        </header>
+        <div class="">
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">                          
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    <a href="#" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 5px;" onclick="Themsanpham()">Thêm</a>
+                                </form>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            @*<th>
+                                                ID Chi tiết hồ sơ
+                                            </th>*@
+                                            <th>
+                                                Hồ Sơ
+                                            </th>
+                                            <th>
+                                                Chuẩn Đoán covid
+                                            </th>
+                                            <th>
+                                                Kết luận
+                                            </th>
+                                            <th>
+                                                Ghi chú
+                                            </th>
+                                            <th>
+                                                Tên nơi nhập cảnh
+                                            </th>                                            
+                                            <th>
+                                                Edit
+                                            </th>
+                                            <th>
+                                                Delete
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                @*<td>
+                                                    @item.idChiTietHoSo
+                                                </td>*@
+                                                <td>
+                                                    @item.idHoSo
+                                                </td>
+                                                <td>
+                                                    @item.chandoanCovid
+                                                </td>
+                                                <td>
+                                                    @item.ketluan
+                                                </td>
+                                                <td>
+                                                    @item.Ghichu
+                                                </td>
+                                                <td>
+                                                    @item.TenNoiNhapCanh
+                                                </td>
+
+                                            
+                                                <td>
+                                                    <button onclick="return getid('@item.idChiTietHoSo');" class="btn btn-success btn-sm">Sửa</button>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","ChiTietHoSo")/@item.idChiTietHoSo">Xóa</a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="modal fade" id="viewone">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Xem dữ liệu</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="demo-form2" method="get" enctype="multipart/form-data" action="" data-parsley-validate class="form-horizontal form-label-left">
+
+                        @*<div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Id chi tiết HS
+                            </label>
+                            <label class="control-label col-sm-6" id="idChiTietHoSo">
+                            </label>
+                        </div>*@
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Mã Hồ Sơ
+                            </label>
+                            <label class="control-label col-sm-6" id="idHoSo">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Chuẩn Đoán covid
+                            </label>
+                            <label class="control-label col-sm-6 " id="chandoanCovid">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Kết luận
+                            </label>
+                            <label class="control-label col-sm-6" id="ketluan">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Ghi chú
+                            </label>
+                            <label class="control-label col-sm-6" id="Ghichu">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Tên nơi nhập cảnh
+                            </label>
+                            <label class="control-label col-sm-6" id="TenNoiNhapCanh">
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Id chi tiết HS</label>
+                    <input type="text" id="idcths" class="form-control" disabled />
+                    <br />
+                    <label>Mã Hồ Sơ</label>
+                    @*<input type="text" id="mhs" class="form-control" />*@
+                    <select class="form-control" id="mhs" name="id_admin">
+                        @foreach (var item in db.HoSoes)
+                        {
+                            <option value="@item.idHoso">@item.idHoso</option>
+                        }
+                    </select>
+                    <br />
+                    <label>Chuẩn Đoán covid</label>
+                    <input type="text" id="cdc" class="form-control" />
+
+                    <br />
+                    <label>Kết luận</label>
+                    <input type="text" id="kl" class="form-control" />
+
+                    <br />
+                    <label>Ghi chú</label>
+                    <input type="text" id="gc" class="form-control" />
+
+                    <br />
+                    <label>Tên nơi nhập cảnh</label>
+                    <input type="text" id="tnnc" class="form-control" />
+                    <br />
+                    @*<label>createdate</label>
+                    <input type="text" id="cd" class="form-control" />*@                    
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                    <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-success ">Lưu thông tin </button>
+                    <button type="button" id="btnUpdate" onclick="return Edit();" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+
+    function view1SanPham(id) {
+
+        $.ajax({
+            url: '/ChiTietHoSo/details',
+            data: { id: id },// data tên phải giống trong action
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#viewone').modal('show');
+                console.log(result);
+                var data = result;
+                $('#idChiTietHoSo').html(data.idChiTietHoSo);
+                $("#idHoSo").html(data.idHoSo);
+                $("#chandoanCovid").html(data.chandoanCovid);
+                $("#ketluan").html(data.ketluan);
+                $("#Ghichu").html(data.Ghichu);
+                $("#TenNoiNhapCanh").html(data.TenNoiNhapCanh);
+                $("#createdate").html(data.createdate);
+            },
+            //error: function (data) {
+            //    alert("tạo thông tin thất bại");
+            //},
+        });
+    }
+    function Themsanpham() {//ham goi
+        $('#idcths').val('');
+        $('#mhs').val('');
+        $('#cdc').val('');
+        $('#kl').val('');
+        $('#gc').val('');
+        $('#tnnc').val('');
+        $('#cd').val('');
+        //$('#mahs');
+        $('#btnUpdate').hide();
+        $('#btnAdd').show();//caau lenh goi
+        $('#myModal').modal("show");
+        $('.modal-title').html('Thêm thông tin');
+    }
+
+    function _add() {
+        var obj = {
+            //idHoso:$('mahs').val(),
+            idChiTietHoSo: $('#idcths').val(),
+            idHoSo: $('#mhs').val(),
+            chandoanCovid: $('#cdc').val(),
+            ketluan: $('#kl').val(),
+            Ghichu: $('#gc').val(),
+            TenNoiNhapCanh: $('#tnnc').val(),
+            createdate: $('#cd').val(),
+        }
+        $.ajax({
+            url: "/ChiTietHoSo/create",
+            data: JSON.stringify(obj),
+            type: "POST",//dang dung ham post
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#myModal').modal('hide');
+                location.reload();//chong load lai trang
+                alert("them thanh cong");
+                window.location = data.action;
+            },
+            error: function (errmessage) {
+                alert(errmessage.responseText);
+            }
+        });
+
+    }
+    //
+    function getid(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/ChiTietHoSo/get',
+            dataType: 'json',
+            data: {
+                id: id
+            },
+
+            success: function (data) {
+                $('#idcths').val(data.dt.idChiTietHoSo);
+                $('#mhs').val(data.dt.idHoSo);
+                $('#cdc').val(data.dt.chandoanCovid);
+                $('#kl').val(data.dt.ketluan);
+                $('#gc').val(data.dt.Ghichu);
+                $('#tnnc').val(data.dt.TenNoiNhapCanh);
+                $('#cd').val(data.dt.createdate);
+                //
+                //$('#mahs');
+                $('#myModal').modal('show');
+                $('#btnUpdate').show();
+                $('#btnAdd').hide();
+                $('.modal-title').html('Sửa bản ghi');
+
+            },
+            error: function (data) {
+
+                showmessage("Error:", data.message);
+            },
+        });
+    }
+
+    //
+    function Edit() {
+        var obj = {
+            idChiTietHoSo: $('#idcths').val(),
+            idHoSo: $('#mhs').val(),
+            chandoanCovid: $('#cdc').val(),
+            ketluan: $('#kl').val(),
+            Ghichu: $('#gc').val(),
+            TenNoiNhapCanh: $('#tnnc').val(),
+            createdate: $('#cd').val(),
+        }
+        $.ajax({
+            url: "/ChiTietHoSo/edit",
+            data: JSON.stringify(obj),
+            type: "POST",//dang dung ham post
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#myModal').modal('hide');
+                location.reload();//chong load lai trang
+                alert("sua thanh cong");
+                window.location = data.action;
+            },
+            error: function (errmessage) {
+                alert(errmessage.responseText);
+            }
+        });
+
+    }
+
+    </script>
+    </body>
+</html>
+

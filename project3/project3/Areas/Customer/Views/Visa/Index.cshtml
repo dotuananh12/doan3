@@ -1,0 +1,61 @@
+﻿@model IEnumerable<project3.Models.nguoidung>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Customer/Views/Shared/layoutuse.cshtml";
+}
+<div class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 style="padding-bottom:15px;color:red;" class="box-title">Thông Tin Visa</h3>
+                </div>
+                <div class="">
+                    <table id="" class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Mã Visa
+                                </td>
+                                <td>
+                                    Ngày cấp
+                                </td>
+                                <td>
+                                    Ngày hết hạn
+                                </td>                               
+                            </tr>
+                        </thead>
+                        <tbody id="view"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section ScriptHome{
+    <script>
+        $(function () {
+            viewHoso();
+        })
+        function viewHoso() {
+            $.ajax({
+                url: '/Customer/Visa/layvisa',
+                type: 'get',
+                datatype: 'json',
+                success: function (data) {
+                    var htm = '';
+                    console.log(data.dt);
+                    $.each(data.dt, function (key, item) {
+                        htm += '<tr>';
+                        htm += '<td>' + item.visa + '</td>';
+                        htm += '<td>' + item.ngaycap + '</td>';                       
+                        htm += '<td>' + item.hansudung + '</td>';     
+                        htm += '</tr>';
+                    });
+                    $('#view').html(htm);
+                },
+            });
+        }
+</script>
+}

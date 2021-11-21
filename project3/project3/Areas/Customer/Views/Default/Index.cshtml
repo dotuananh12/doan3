@@ -1,0 +1,172 @@
+﻿@model IEnumerable<project3.Models.HoSo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Customer/Views/Shared/layoutuse.cshtml";
+}
+
+<div class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 style="padding-bottom:15px;color:red;" class="box-title">Danh Sách Hồ Sơ Đã Tạo</h3>
+                </div>
+                <div class="">
+                    <table id="" class="table table-bordered ">
+                        <thead>
+                            <tr>
+                                <td>
+                                    Id Hồ Sơ
+                                </td>
+                                @*<td>
+                                    Id user
+                                </td>*@
+                                <td>
+                                    Ngày nhập cảnh
+                                </td>
+                                <td>
+                                    Visa
+                                </td>
+                                <td>
+                                    Người Nhập Cảnh
+                                </td>
+                                <td>
+                                    Chuyến Bay
+                                </td>
+                                <td>
+                                    Ghi chú và lịch trình
+                                </td>
+                                <td>
+                                    Thêm
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="view"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> cach goi modal thu nhat*@
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Danh Sách Người Dùng</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered table-striped dataTable" id="tbnd">
+                            <thead>
+                                <tr>
+                                    <th>code</th>
+                                    <th>Tên Người Nhận</th>
+                                    <th>email</th>                                  
+                                    <th>Chia sẻ</th>
+                            </thead>
+                            <tbody id="loadHoso"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section ScriptHome{
+    <script>
+        $(function () {
+            viewHoso();
+        })
+        function viewHoso() {
+            $.ajax({
+                url: '/Customer/Default/hienthi',
+                type: 'post',
+                datatype: 'json',
+                success: function (data) {
+                    var htm = '';
+                    console.log(data.dt);
+                    $.each(data.dt, function (key, item) {
+                        htm += '<tr>';
+                        htm += '<td>' + item.idHoso + '</td>';
+                        htm += '<td class="txtDate">' + item.ngayNhapCanh + '</td>';
+                        htm += '<td>' + item.visa + '</td>';
+                        htm += '<td>' + item.fullname + '</td>';
+                        htm += '<td>' + item.chuyenbay + '</td>';
+                        htm += '<td>' + item.nhanxet + '</td>';
+                        htm += '<td><button type="button" class="btn btn-info" onclick="loadUse(' + item.idHoso + ')">Open</button></td>';//cach goi thu 2
+                        htm += '</tr>';
+                    });
+                    $("#txtDate").val($.datepicker.formatDate('dd M yy', new Date()));
+                    $('#view').html(htm);
+                },
+            });
+        }
+        //lấy danh sách để share
+
+        function loadUse(idHoso) {
+            $.ajax({
+                url: '/Customer/Default/dsAdmin',
+                type: 'post',
+                datatype: 'JSON',
+                data: {},
+                success: function (data) {
+                    var htm = '';
+                    $.each(data.ds, function (key, item) {
+                        htm += ' <tr>';
+                        htm += ' <td>' + item.code + '</td>';
+                        htm += ' <td>' + item.fullname + '</td>';
+                        htm += ' <td>' + item.email + '</td>';
+
+                        htm += ' <td><button type="button" class="btn btn-primary" onclick="return sharefile(\'@User.Identity.Name\',' + item.id + ',' + idHoso +')">thêm</button></td>';
+                        htm += ' </tr>';
+                    });
+                    ;
+                    $('#myModal').modal('show');
+                    $('#loadHoso').html(htm);
+                }
+            });
+        }
+
+        //share file
+        function sharefile(codeShare, codeTake, useFileID) {
+            var cf = confirm('bạn co chac muon chia se ?');
+            if (cf) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Customer/Default/share',
+                    datatype: "json",
+                    data: {
+                        codeShare: codeShare,
+                        codeTake: codeTake,
+                        useFileID: useFileID,
+                        noidung: "file share",
+                        //idUser:idUser
+                    },
+                    success: function (data) {
+                        alert(data.ms);
+                        location.reload();
+                    },
+
+                });
+            }
+        }
+    </script>
+}

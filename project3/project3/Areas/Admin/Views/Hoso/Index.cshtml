@@ -1,0 +1,274 @@
+﻿@model IEnumerable<project3.Models.HoSo>
+@using project3.Models;
+
+@{
+    Model1 db = new Model1();
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hồ Sơ | ADMIN</title>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="">
+        <header class="main-header">
+            <a href="../../index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-lg"><b>Admin</b>LTE</span>
+            </a>
+
+        </header>
+        <div class="">
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    <a href="#" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 5px;" onclick="Themsanpham()">Thêm</a>
+                                </form>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>                                            
+                                            <th>
+                                                Ngày Nhập Cảnh
+                                            </th>
+                                            <th>
+                                                Họ Tên
+                                            </th>
+                                            <th>
+                                                Visa
+                                            </th>
+                                            <th>
+                                                Chuyến Bay
+                                            </th>
+                                            <th>
+                                                Ghi Chú Và Lịch Trình
+                                            </th>        
+                                            <th>
+                                                Mã Người Tạo
+                                            </th>                                      
+                                            <th>
+                                                Edit
+                                            </th>
+                                            <th>
+                                                Delete
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.idHoso
+                                                </td>
+                                                <td>
+                                                    @item.ngayNhapCanh
+                                                </td>                                               
+                                                <td>
+                                                    @item.fullname
+                                                </td>
+                                                <td>
+                                                    @item.visa
+                                                </td>
+                                                <td>
+                                                    @item.chuyenbay
+                                                </td>
+                                                <td>
+                                                    @item.nhanxet
+                                                </td>                                              
+                                                <td>
+                                                    @item.idadmincp
+                                                </td>                                       
+                                                <td>
+                                                    <button onclick="return getid('@item.idHoso');" class="btn btn-success btn-sm">Sửa</button>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","HoSo")/@item.idHoso">Xóa</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+   
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Mã hồ sơ</label>
+                    <input type="text" id="mahs" class="form-control" disabled />                   
+                    <br />
+                    <label>Ngày Nhập Cảnh</label>
+                    <input type="text" id="nnc" class="form-control" />
+                    <br />
+                    <label>Họ Tên</label>
+                    <input type="text" id="ht" class="form-control" />
+
+                    <br />
+                    <label>Visa</label>
+                    <input type="text" id="vs" class="form-control" />
+
+                    <br />
+                    <label>Chuyến Bay</label>
+                    <input type="text" id="cb" class="form-control" />
+
+                    <br />
+                    <label>Nhận Xét</label>
+                    <input type="text" id="nx" class="form-control" />
+                    <br />
+
+                    <label>Người Tạo</label>
+                    @*<input type="text" id="idad" class="form-control" />*@
+                    <select class="form-control" id="idad" name="id_admin">
+                        @foreach( var item in db.AdminCPs)
+                        {
+                            <option value="@item.id">@item.fullname</option>
+                        }
+                    </select>
+                    <br />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                    <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-success ">Lưu thông tin </button>
+                    <button type="button" id="btnUpdate" onclick="return Edit();" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+
+    function Themsanpham() {//ham goi
+        $('#mahs').val('');
+        $('#nnc').val('');
+        $('#ht').val('');
+        $('#vs').val('');
+        $('#cb').val('');
+        $('#nx').val('');
+        $('#idad').val('');//checkbox thi dung nham
+
+        $('#btnUpdate').hide();
+        $('#btnAdd').show();//caau lenh goi
+        $('#myModal').modal("show");
+        $('.modal-title').html('Thêm thông tin');
+    }
+
+    function _add() {
+        var obj = {
+            id:$('mahs').val(),
+            ngayNhapCanh: $('#nnc').val(),
+            fullname: $('#ht').val(),
+            visa: $('#vs').val(),
+            chuyenbay: $('#cb').val(),
+            nhanxet: $('#nx').val(),
+            idadmincp: $('#idad').val(),
+        }
+        $.ajax({
+            url: "/HoSo/create",
+            data: JSON.stringify(obj),
+            type: "POST",//dang dung ham post
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#myModal').modal('hide');
+                location.reload();//chong load lai trang
+                alert("them thanh cong");
+                window.location = data.action;
+            },
+            error: function (errmessage) {
+                alert(errmessage.responseText);
+            }
+        });
+
+    }
+    //
+    function getid(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/HoSo/get',
+            dataType: 'json',
+            data: {
+                id: id
+            },
+
+            success: function (data) {
+                $('#mahs').val(data.dt.idHoso);
+                $('#nnc').val(data.dt.ngayNhapCanh);
+                $('#ht').val(data.dt.fullname);
+                $('#vs').val(data.dt.visa);
+                $('#cb').val(data.dt.chuyenbay);
+                $('#nx').val(data.dt.nhanxet);
+                $('#idad').val(data.dt.idadmincp);
+                          
+                //
+                $('#mahs');
+                $('#myModal').modal('show');
+                $('#btnUpdate').show();
+                $('#btnAdd').hide();
+                $('.modal-title').html('Sửa bản ghi');
+
+            },
+            error: function (data) {
+
+                showmessage("Error:", data.message);
+            },
+        });
+    }
+
+    //
+    function Edit() {
+        var obj = {           
+            idHoso:$('#mahs').val(),
+            ngayNhapCanh: $('#nnc').val(),
+            fullname: $('#ht').val(),
+            visa: $('#vs').val(),
+            chuyenbay: $('#cb').val(),
+            nhanxet: $('#nx').val(),
+            idadmincp: $('#idad').val(),
+        }
+        $.ajax({
+            url: "/HoSo/edit",
+            data: JSON.stringify(obj),
+            type: "POST",//dang dung ham post
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#myModal').modal('hide');
+                location.reload();//chong load lai trang
+                alert("sua thanh cong");
+                window.location = data.action;
+            },
+            error: function (errmessage) {
+                alert(errmessage.responseText);
+            }
+        });
+    }
+    </script>
+</body>
+</html>

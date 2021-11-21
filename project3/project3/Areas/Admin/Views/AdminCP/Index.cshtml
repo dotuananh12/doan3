@@ -1,0 +1,349 @@
+﻿@model IEnumerable<project3.Models.AdminCP>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminCP | ADMIN</title>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="">
+        <header class="main-header">
+            <a href="../../index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-lg"><b>Admin</b>LTE</span>
+            </a>
+
+        </header>
+        <div class="">
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    <a href="#" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 5px;" onclick="Themsanpham()">Thêm</a>
+                                </form>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                Code
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Fullname
+                                            </th>
+                                            <th>
+                                                PassWord
+                                            </th>
+                                            <th>
+                                                Chức Vụ
+                                            </th>
+                                            <th>
+                                                PhoneNumber
+                                            </th>                                           
+                                            <th>
+                                                NgaySinh
+                                            </th>
+                                            <th>
+                                                Sửa
+                                            </th>
+                                            <th>
+                                                Xóa
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.id
+                                                </td>
+                                                <td>
+                                                    @item.code
+                                                </td>
+                                                <td>
+                                                    @item.email
+                                                </td>
+                                                <td>
+                                                    @item.fullname
+                                                </td>
+                                                <td>
+                                                    @item.password
+                                                </td>
+                                                <td>
+                                                    @item.role
+                                                </td>
+                                                <td>
+                                                    @item.sdt
+                                                </td>
+                                                <td>
+                                                    @item.ngaysinh
+                                                </td>
+                                                <td>
+                                                    <button onclick="return getid('@item.id');" class="btn btn-success btn-sm">Sửa</button>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","AdminCP")/@item.id">Xóa</a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    @*<div class="modal fade" id="viewone">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Xem dữ liệu</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="demo-form2" method="get" enctype="multipart/form-data" action="" data-parsley-validate class="form-horizontal form-label-left">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Id 
+                            </label>
+                            <label class="control-label col-sm-6" id="id">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Code
+                            </label>
+                            <label class="control-label col-sm-6" id="code">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                email
+                            </label>
+                            <label class="control-label col-sm-6 " id="email">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                fullname
+                            </label>
+                            <label class="control-label col-sm-6" id="fullname">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                password
+                            </label>
+                            <label class="control-label col-sm-6" id="password">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                sdt
+                            </label>
+                            <label class="control-label col-sm-6" id="sdt">
+                            </label>
+                        </div>    
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Ngày Sinh
+                            </label>
+                            <label class="control-label col-sm-6" id="ns">
+                            </label>
+                        </div>                    
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Id </label>
+                    <input type="text" id="i" class="form-control" disabled />
+                    <br />
+                    <label>code</label>
+                    <input type="text" id="cd" class="form-control" />
+                    <br />
+                    <label>email</label>
+                    <input type="text" id="em" class="form-control" />
+
+                    <br />
+                    <label>fullname</label>
+                    <input type="text" id="fn" class="form-control" />
+
+                    <br />
+                    <label>password</label>
+                    <input type="text" id="pw" class="form-control" />
+
+                    <br />
+                    <label>Chức Vụ</label>
+                    <input type="text" id="cv" class="form-control" />
+
+                    <br />
+                    <label>PhoneNumber</label>
+                    <input type="text" id="sdt" class="form-control" />
+
+                    <br />
+                    <label>Ngày Sinh</label>
+                    <input type="text" id="ns" class="form-control" />
+                   
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                    <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-success ">Lưu thông tin </button>
+                    <button type="button" id="btnUpdate" onclick="return Edit();" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+
+        function Themsanpham() {
+            $('#i').val('');
+            $('#cd').val('');
+            $('#em').val('');
+            $('#fn').val('');
+            $('#pw').val('');
+            $('#cv').val('');
+            $('#sdt').val('');
+            $('#ns').val('');
+
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();
+            $('#myModal').modal("show");
+            $('.modal-title').html('Thêm thông tin');
+        }
+
+        function _add() {
+            var obj = {
+                id: $('#i').val(),
+                code: $('#cd').val(),
+                email: $('#em').val(),
+                fullname: $('#fn').val(),
+                password: $('#pw').val(),
+                role: $('#cv').val(),
+                sdt: $('#sdt').val(),               
+                ngaysinh: $('#ns').val(),
+
+            }
+            $.ajax({
+                url: "/AdminCP/create",
+                data: JSON.stringify(obj),
+                type: "POST",//dang dung ham post
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#myModal').modal('hide');
+                    location.reload();//chong load lai trang
+                    alert("them thanh cong");
+                    window.location = data.action;
+                },
+                error: function (errmessage) {
+                    alert(errmessage.responseText);
+                }
+            });
+
+        }
+        //
+        function getid(id) {
+            $.ajax({
+                type: 'POST',
+                url: '/AdminCP/get',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+
+                success: function (data) {
+                    $('#i').val(data.dt.id);
+                    $('#cd').val(data.dt.code);
+                    $('#em').val(data.dt.email);
+                    $('#fn').val(data.dt.fullname);
+                    $('#pw').val(data.dt.password);
+                    $('#cv').val(data.dt.role);
+                    $('#sdt').val(data.dt.sdt);
+                    $('#ns').val(data.dt.ngaysinh);
+                    //
+                    //$('#mahs');
+                    $('#myModal').modal('show');
+                    $('#btnUpdate').show();
+                    $('#btnAdd').hide();
+                    $('.modal-title').html('Sửa bản ghi');
+
+                },
+                error: function (data) {
+
+                    showmessage("Error:", data.message);
+                },
+            });
+        }
+
+        //
+        function Edit() {
+            var obj = {
+                id: $('#i').val(),
+                code: $('#cd').val(),
+                email: $('#em').val(),
+                fullname: $('#fn').val(),
+                password: $('#pw').val(),
+                role:$('#cv').val(),
+                sdt: $('#sdt').val(),
+                ngaysinh: $('#ns').val(),
+            }
+            $.ajax({
+                url: "/AdminCP/edit",
+                data: JSON.stringify(obj),
+                type: "POST",//dang dung ham post
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#myModal').modal('hide');
+                    location.reload();//chong load lai trang
+                    alert("sua thanh cong");
+                    window.location = data.action;
+                },
+                error: function (errmessage) {
+                    alert(errmessage.responseText);
+                }
+            });
+
+        }
+
+    </script>
+</body>
+</html>

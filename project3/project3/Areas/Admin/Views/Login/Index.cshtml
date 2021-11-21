@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Log in</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="~/Lib/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Lib/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Lib/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Lib/dist/css/AdminLTE.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/Lib/plugins/iCheck/square/blue.css">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="~/Lib/index2.html"><b>Admin</b></a>
+        </div>
+        <div class="login-box-body">
+            <p class="login-box-msg">Đăng nhập để bắt đầu</p>
+            @using (Html.BeginForm("LoginUser", "Login", FormMethod.Post))
+            {
+                <div class="form-group has-feedback">
+                    <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" placeholder="password" name="password" id="password">
+                    <div><span class="glyphicon glyphicon-lock form-control-feedback"></span></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4  pull-right">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" onclick="return login()">Sign In</button>
+                    </div>
+                </div>
+            }
+            <a href="#">I forgot my password</a><br>
+            <a href="register.html" class="text-center">Register a new membership</a>
+        </div>
+    </div>
+    <!-- jQuery 3 -->
+    <script src="~/Lib/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="~/Lib/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Lib/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        //var frm = $("#formlogin");
+        //frm.submit(function (e) {
+//    e.preventDefault();
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: frm.attr('action'),
+        //        data: frm.serialize(),
+        //        success: function (data) {
+        //            if (data.success) {
+        //                window.location = data.action;
+        //            }
+        //            else {
+        //                alert(data.message)
+        //            }
+        //        },
+        //        error: function (data) {
+        //            alert("Tạo thông tin thất bại");
+        //        },
+        //    });
+        //});
+
+        function login() {
+            var email = $("#email").val();
+            var password = $("#password").val();
+            $.ajax({
+                type: "post",
+                url: "/Admin/Login/LoginUser",
+                data: { email: email, password: password },
+                success: function (data) {
+                    if (data.success) {
+                        window.location = data.action;
+                    } else {
+                        alert(data.message);
+                    }
+                }, error: function (data) {
+                    alert("tao thong tin that bai");
+                },
+            });
+
+        }
+    </script>
+</body>
+</html>

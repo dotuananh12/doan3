@@ -1,0 +1,69 @@
+﻿@model IEnumerable<project3.Models.ChiTietHoSo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Customer/Views/Shared/layoutuse.cshtml";
+}
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>                               
+                                <th>
+                                    Mã Hồ Sơ
+                                </th>
+                                <th>
+                                    Chuẩn Đoán covid
+                                </th>
+                                <th>
+                                    Kết luận
+                                </th>
+                                <th>
+                                    Ghi chú
+                                </th>
+                                <th>
+                                    Tên nơi nhập cảnh
+                                </th>
+                             
+                                @*<th>
+                                    Delete
+                                </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.idHoSo
+                                    </td>
+                                    <td>
+                                        @item.chandoanCovid
+                                    </td>
+                                    <td>
+                                        @item.ketluan
+                                    </td>
+                                    <td>
+                                        @item.Ghichu
+                                    </td>
+                                    <td>
+                                        @item.TenNoiNhapCanh
+                                    </td>                                  
+                                    @*<td>
+                                        <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","ChitietHosoNhan")/@item.idChiTietHoSo">Xóa</a>
+                                    </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

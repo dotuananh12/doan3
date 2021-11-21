@@ -1,0 +1,339 @@
+﻿@model IEnumerable<project3.Models.FileHoSo>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>File Hồ Sơ | ADMIN</title>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="">
+        <header class="main-header">
+            <a href="../../index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-lg"><b>Admin</b>LTE</span>
+            </a>
+
+        </header>
+        <div class="">
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">                          
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    <a href="#" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 5px;" onclick="Themsanpham()">Thêm</a>
+                                </form>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID File
+                                            </th>
+                                            <th>
+                                                Mã Chi Tiết Hồ Sơ
+                                            </th>
+                                            <th>
+                                                Tên File
+                                            </th>
+                                            <th>
+                                                Link File
+                                            </th>
+                                            <th>
+                                                createBy
+                                            </th>
+                                            <th>
+                                                createDate
+                                            </th>    
+                                            @*<th>
+                                                See
+                                            </th>*@
+                                            <th>
+                                                Edit
+                                            </th>
+                                            @*<th>
+                                                Delete
+                                            </th>*@                                      
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.idFileHoSo
+                                                </td>
+                                                <td>
+                                                    @item.idChiTietHoSo
+                                                </td>
+                                                <td>
+                                                    @item.filename
+                                                </td>
+                                                <td>
+                                                    @item.filelink
+                                                </td>
+                                                <td>
+                                                    @item.createBy
+                                                </td>
+                                                <td>
+                                                    @item.createDate
+                                                </td>
+                                                @*<td>
+                                                    <a onclick="view1SanPham('@item.idFileHoSo')"><i class="btn btn-success btn-sm"> Xem</i></a>
+                                                </td>*@
+                                                <td>
+                                                    <button onclick="return getid('@item.idFileHoSo');" class="btn btn-success btn-sm">Sửa</button>
+                                                </td>
+                                                @*<td>
+                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","FileHoSo")/@item.idFileHoSo">Xóa</a>
+                                                </td>*@
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="modal fade" id="viewone">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Xem dữ liệu</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="demo-form2" method="get" enctype="multipart/form-data" action="" data-parsley-validate class="form-horizontal form-label-left">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                ID File
+                            </label>
+                            <label class="control-label col-sm-6" id="idFileHoSo">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Mã Chi Tiết Hồ Sơ
+                            </label>
+                            <label class="control-label col-sm-6" id="idChiTietHoSo">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Tên File
+                            </label>
+                            <label class="control-label col-sm-6 " id="filename">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Link File
+                            </label>
+                            <label class="control-label col-sm-6" id="filelink">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                createBy
+                            </label>
+                            <label class="control-label col-sm-6" id="createBy">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                createDate
+                            </label>
+                            <label class="control-label col-sm-6" id="createDate">
+                            </label>
+                        </div>                     
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+                    <label>ID File</label>
+                    <input type="text" id="idf" class="form-control" disabled />
+                    <br />
+                    <label>Mã Chi Tiết Hồ Sơ</label>
+                    <input type="text" id="mcths" class="form-control" />
+                    <br />
+                    <label>Tên File</label>
+                    <input type="text" id="tf" class="form-control" />
+
+                    <br />
+                    <label>Link File</label>
+                    <input type="text" id="lf" class="form-control" />
+
+                    <br />
+                    <label>createBy</label>
+                    <input type="text" id="cb" class="form-control" />
+
+                    <br />
+                    <label>createDate</label>
+                    <input type="text" id="cd" class="form-control" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                    <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-success ">Lưu thông tin </button>
+                    <button type="button" id="btnUpdate" onclick="return Edit();" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+<script>
+    function view1SanPham(idFileHoSo) {
+
+        $.ajax({
+            url: '/FileHoSo/details',
+            data: { idFileHoSo: idFileHoSo },// data tên phải giống trong action
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#viewone').modal('show');
+                console.log(result);
+                var data = result;
+                $('#idFileHoSo').html(data.idFileHoSo);
+                $("#idChiTietHoSo").html(data.idChiTietHoSo);
+                $("#filename").html(data.filename);
+                $("#filelink").html(data.filelink);
+                $("#createBy").html(data.createBy);
+                $("#createDate").html(data.createDate);
+            },
+            //error: function (data) {
+            //    alert("tạo thông tin thất bại");
+            //},
+        });
+    }
+    function Themsanpham() {//ham goi
+        $('#idf').val('');
+        $('#mcths').val('');
+        $('#tf').val('');
+        $('#lf').val('');
+        $('#cb').val('');
+        $('#cd').val('');
+        //$('#mahs');
+        $('#btnUpdate').hide();
+        $('#btnAdd').show();//caau lenh goi
+        $('#myModal').modal("show");
+        $('.modal-title').html('Thêm thông tin');
+    }
+
+    function _add() {
+        var obj = {
+            //idHoso:$('mahs').val(),
+            idFileHoSo: $('#idf').val(),
+            idChiTietHoSo: $('#mcths').val(),
+            filename: $('#tf').val(),
+            filelink: $('#lf').val(),
+            createBy: $('#cb').val(),
+            createDate: $('#cd').val(),
+        }
+        $.ajax({
+            url: "/FileHoSo/create",
+            data: JSON.stringify(obj),
+            type: "POST",//dang dung ham post
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#myModal').modal('hide');
+                location.reload();//chong load lai trang
+                alert("them thanh cong");
+                window.location = data.action;
+            },
+            error: function (errmessage) {
+                alert(errmessage.responseText);
+            }
+        });
+
+    }
+    //
+    function getid(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/FileHoSo/get',
+            dataType: 'json',
+            data: {
+                id: id
+            },
+
+            success: function (data) {
+                $('#idf').val(data.dt.idFileHoSo);
+                $('#mcths').val(data.dt.idChiTietHoSo);
+                $('#tf').val(data.dt.filename);
+                $('#lf').val(data.dt.filelink);
+                $('#cb').val(data.dt.createBy);
+                $('#cd').val(data.dt.createdate);
+                //
+                //$('#mahs');
+                $('#myModal').modal('show');
+                $('#btnUpdate').show();
+                $('#btnAdd').hide();
+                $('.modal-title').html('Sửa bản ghi');
+
+            },
+            error: function (data) {
+
+                showmessage("Error:", data.message);
+            },
+        });
+    }
+
+    //
+    function Edit() {
+        var obj = {
+            idFileHoSo: $('#idf').val(),
+            idChiTietHoSo: $('#mcths').val(),
+            filename: $('#tf').val(),
+            filelink: $('#lf').val(),
+            createBy: $('#cb').val(),
+            createdate: $('#cd').val(),
+        }
+        $.ajax({
+            url: "/FileHoSo/edit",
+            data: JSON.stringify(obj),
+            type: "POST",//dang dung ham post
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $('#myModal').modal('hide');
+                location.reload();//chong load lai trang
+                alert("sua thanh cong");
+                window.location = data.action;
+            },
+            error: function (errmessage) {
+                alert(errmessage.responseText);
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
+

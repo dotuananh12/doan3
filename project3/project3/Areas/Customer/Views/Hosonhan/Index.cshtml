@@ -1,0 +1,64 @@
+﻿@model IEnumerable<project3.Models.shareFile>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Customer/Views/Shared/layoutuse.cshtml";
+}
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 style="padding-bottom:15px;color:red;" class="box-title">Danh sách hồ sơ đã được nhận:</h3>
+                </div>
+
+                <div class="">
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>ID share</th>
+                                <th> ID Nhận</th>
+                                <th>ID hồ sơ</th>
+                                <th>Nội dung</th>
+                                <th>Người Nhập Cảnh</th>
+                                <th>Chi Tiết Kết Luận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="">
+                            @{ int stt = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.Raw(stt = stt + 1)
+                                        </td>
+                                        <td>
+                                            @item.codeShare
+                                        </td>
+                                        <td>
+                                            @item.codeTake
+                                        </td>
+                                        <td>
+                                            @item.hosoID
+                                        </td>
+                                        <td>
+                                            @item.noidung
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" href="@Url.Action("index", "HSnhanChitiet")/index/@item.hosoID">xem</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" href="@Url.Action("index", "ChitietHosoNhan")/index/@item.hosoID">xem</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

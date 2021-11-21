@@ -1,0 +1,81 @@
+﻿@model IEnumerable<project3.Models.nguoidung>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Customer/Views/Shared/layoutuse.cshtml";
+}
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="box">
+                    <div class="box-header">
+                        <h3 style="padding-bottom:15px;color:red;" class="box-title">Thông Tin Người Nhập Cảnh</h3>
+                        <br />
+
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        ID
+                                    </td>
+                                    <td>
+                                        Họ Tên(Name)
+                                    </td>
+                                    <td>
+                                        PhoneNumber
+                                    </td>
+                                    <td>
+                                        Email
+                                    </td>
+                                    <td>
+                                        Visa
+                                    </td>
+                                    <td>
+                                        Quốc Tịch
+                                    </td>                                  
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.idUser
+                                        </td>
+                                        <td>
+                                            @item.fullname
+                                        </td>
+                                        <td>
+                                            @item.phonenumber
+                                        </td>
+                                        <td>
+                                            @item.email
+                                        </td>
+                                        <td>
+                                            @item.visa
+                                        </td>
+                                        <td>
+                                            @item.quoctich
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</body>
+

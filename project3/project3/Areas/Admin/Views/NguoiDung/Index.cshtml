@@ -1,0 +1,334 @@
+﻿@model  IEnumerable<project3.Models.nguoidung>
+@using project3.Models;
+
+@{
+    Model1 db = new Model1();
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Người Dùng | ADMIN</title>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="">
+        <header class="main-header">
+            <a href="../../index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-lg"><b>Admin</b>LTE</span>
+            </a>
+
+        </header>
+        <div class="">
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    <a href="#" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 5px;" onclick="Themsanpham()">Thêm</a>
+                                </form>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            @*<th>
+                                                ID
+                                            </th>*@
+                                            @*<th>
+                                                Code
+                                            </th>*@
+                                            <th>
+                                                Hồ Sơ
+                                            </th>
+                                            <th>
+                                                Họ Và Tên
+                                            </th>
+                                            @*<th>
+                                                Mật Khẩu
+                                            </th>*@
+                                            <th>
+                                                Số Phone
+                                            </th>
+                                            <th>
+                                                Email
+                                            </th>
+                                            <th>
+                                                Giới Tính
+                                            </th>
+                                            <th>
+                                                Quốc Tịch
+                                            </th>      
+                                            <th>
+                                                ViSa
+                                            </th> 
+                                            <th>
+                                                Ngày Cấp
+                                            </th> 
+                                            <th>
+                                                Ngày Hết Hạn
+                                            </th>                                    
+                                            <th>
+                                                Sửa
+                                            </th>      
+                                            <th>
+                                                Xóa
+                                            </th>                                      
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                @*<td>
+                                                    @item.idUser
+                                                </td>*@
+                                                @*<td>
+                                                    @item.code
+                                                </td>*@
+                                                <td>
+                                                    @item.idHoso
+                                                </td>
+                                                <td>
+                                                    @item.fullname
+                                                </td>
+                                                @*<td>
+                                                    @item.password
+                                                </td>*@
+                                                <td>
+                                                    @item.phonenumber
+                                                </td>
+                                                <td>
+                                                    @item.email
+                                                </td>
+                                                <td>
+                                                    @item.gioitinh
+                                                </td>
+                                                <td>
+                                                    @item.quoctich
+                                                </td>
+                                                <td>
+                                                    @item.visa
+                                                </td>
+                                                <td>
+                                                    @item.ngaycap
+                                                </td>
+                                                <td>
+                                                    @item.hansudung
+                                                </td>
+                                                
+                                                <td>
+                                                    <button onclick="return getid('@item.idUser');" class="btn btn-success btn-sm">Sửa</button>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","NguoiDung")/@item.idUser">Xóa</a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+    @*SỬA, XÓA*@
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Id User</label>
+                    <input type="text" id="ms" class="form-control" disabled />
+                    <br />
+                    @*<label>Code</label>
+                    <input type="text" id="cd" class="form-control" />
+                    <br />*@
+                    <label>Hồ Sơ</label>
+                    @*<input type="text" id="ir" class="form-control" />*@
+                    <select class="form-control" id="ir" name="id_admin">
+                        @foreach (var item in db.HoSoes)
+                        {
+                            <option value="@item.idHoso">@item.idHoso</option>
+                        }
+                    </select>
+                    <br />
+                    <label>Họ và tên</label>
+                    <input type="text" id="fn" class="form-control" placeholder="nhập họ tên" />
+                    <br />
+                    @*<label>Mật Khẩu</label>
+                    <input type="password" id="pw" class="form-control" />
+                    <br />*@
+                    <label>Số Phone</label>
+                    <input type="number" id="pn" class="form-control" />
+                    <br />
+                    <label>Email</label>
+                    <input type="text" id="em" class="form-control" />
+                    <br />
+                    <label>Giới tính</label>
+                    <input type="text" id="gt" class="form-control" />
+                    <br />
+                    <label>Quốc Tịch</label>
+                    <input type="text" id="qt" class="form-control" />
+                    <br />
+                    <label>Visa</label>
+                    <input type="text" id="vs" class="form-control" />
+                    <br />
+                    <label>Ngày cấp</label>
+                    <input type="text" id="nc" class="form-control" />
+                    <br />
+                    <label>Ngày hết hạn</label>
+                    <input type="text" id="nhh" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                    <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-success ">Lưu thông tin </button>
+                    <button type="button" id="btnUpdate" onclick="return Edit();" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script>
+        function Themsanpham() {//ham goi
+            $('#ms').val('');
+            $('#cd').val('');
+            $('#ir').val('');
+            $('#fn').val('');
+            $('#pw').val('');
+            $('#pn').val('');
+            $('#em').val('');
+            $('#gt').val('');
+            $('#qt').val('');
+            $('#vs').val('');
+            $('#nc').val('');
+            $('#nhh').val('');
+
+            $('#ms');
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();//cau lenh goi
+            $('#myModal').modal("show");
+            $('.modal-title').html('Thêm thông tin');
+        }
+        function _add() {
+            var obj = {
+                //idHoso:$('mahs').val(),
+                Code: $('#cd').val(),
+                idHoso: $('#ir').val(),
+                fullname: $('#fn').val(),
+                Password: $('#pw').val(),
+                Phonenumber: $('#pn').val(),
+                Email: $('#em').val(),
+                Gioitinh: $('#gt').val(),
+                QuocTich: $('#qt').val(),
+                visa: $('#vs').val(),
+                ngaycap: $('#nc').val(),
+                hansudung: $('#nhh').val(),
+            }
+            $.ajax({
+                url: "/NguoiDung/create",
+                data: JSON.stringify(obj),
+                type: "POST",//dang dung ham post
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#myModal').modal('hide');
+                    location.reload();//chong load lai trang
+                    alert("them thanh cong");
+                    window.location = data.action;
+                },
+                error: function (errmessage) {
+                    alert(errmessage.responseText);
+                }
+            });
+
+        }
+
+        //
+        function getid(id) {
+            $.ajax({
+                type: 'POST',
+                url: '/NguoiDung/get',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+
+                success: function (data) {
+                    $('#ms').val(data.dt.idUser);
+                    $('#cd').val(data.dt.code);
+                    $('#ir').val(data.dt.idHoso);
+                    $('#fn').val(data.dt.fullname);
+                    $('#pw').val(data.dt.password);
+                    $('#pn').val(data.dt.phonenumber);
+                    $('#em').val(data.dt.email);
+                    $('#gt').val(data.dt.gioitinh);
+                    $('#qt').val(data.dt.quoctich);
+                    $('#vs').val(data.dt.visa);
+                    $('#nc').val(data.dt.ngaycap);
+                    $('#nhh').val(data.dt.hansudung);
+                    //
+                    $('#ms');
+                    $('#myModal').modal('show');
+                    $('#btnUpdate').show();
+                    $('#btnAdd').hide();
+                    $('.modal-title').html('Sửa bản ghi');
+
+                },
+                error: function (data) {
+
+                    showmessage("Error:", data.message);
+                },
+            });
+        }
+
+        //
+        function Edit() {
+            var obj = {
+                idUser: $('#ms').val(),
+                Code: $('#cd').val(),
+                idHoso: $('#ir').val(),
+                fullname: $('#fn').val(),
+                Password: $('#pw').val(),
+                phonenumber: $('#pn').val(),
+                Email: $('#em').val(),
+                Gioitinh: $('#gt').val(),
+                QuocTich: $('#qt').val(),
+                visa: $('#vs').val(),
+                ngaycap: $('#nc').val(),
+                hansudung: $('#nhh').val(),
+            }
+
+            $.ajax({
+                url: "/NguoiDung/edit",
+                data: JSON.stringify(obj),
+                type: "POST",//dang dung ham post
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#myModal').modal('hide');
+                    location.reload();//load lai trang
+                    alert("sua thanh cong");
+                    //window.location = data.action;
+                },
+            });
+        }
+
+    </script>
+    </body>
+</html>

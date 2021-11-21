@@ -1,0 +1,270 @@
+﻿@model IEnumerable<project3.Models.Role>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Role | ADMIN</title>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="">
+        <header class="main-header">
+            <a href="../../index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>LT</span>
+                <span class="logo-lg"><b>Admin</b>LTE</span>
+            </a>
+
+        </header>
+        <div class="">
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <form action="" method="post">
+                                    <a href="#" class="btn btn-primary" style="margin-left: 5px;margin-bottom: 5px;" onclick="Themsanpham()">Thêm</a>
+                                </form>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                idRole
+                                            </th>
+                                            <th>
+                                                rolecode
+                                            </th>
+                                            <th>
+                                                NameChucvu
+                                            </th>
+                                            
+                                            <th>
+                                                Edit
+                                            </th>
+                                            <th>
+                                                Delete
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.idRole
+                                                </td>
+                                                <td>
+                                                    @item.rolecode
+                                                </td>
+                                                <td>
+                                                    @item.NameChucvu
+                                                </td>
+                                                @*<td>
+                                                        <a onclick="view1SanPham('@item.idRole')"><i class="btn btn-success btn-sm"> Xem</i></a>
+                                                    </td>*@
+                                                <td>
+                                                    <button onclick="return getid('@item.idRole');" class="btn btn-success btn-sm">Sửa</button>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm" onclick="return confirm('Bạn có muốn xóa không?');" href="@Url.Action("delete","Role")/@item.idRole">Xóa</a>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    @*XEM DỮ LIỆU*@
+    @*<div class="modal fade" id="viewone">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Xem Dữ Liệu</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="demo-form2" method="get" enctype="multipart/form-data" action="" data-parsley-validate class="form-horizontal form-label-left">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Id role
+                            </label>
+                            <label class="control-label col-sm-6" id="idRole">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Role code
+                            </label>
+                            <label class="control-label col-sm-6" id="rolecode">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">
+                                Chức vụ
+                            </label>
+                            <label class="control-label col-sm-6 " id="NameChucvu">
+                            </label>
+                        </div>
+                    </form>>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Default Modal</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Id Role</label>
+                    <input type="text" id="IR" class="form-control" disabled />
+                    <br />
+                    <label>Role Code</label>
+                    <input type="text" id="RC" class="form-control" />
+                    <br />
+                    <label>Chức Vụ</label>
+                    <input type="text" id="NCV" class="form-control" />
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " data-dismiss="modal">Close</button>
+                    <button type="button" id="btnAdd" onclick="return _add();" class="btn btn-success ">Lưu thông tin </button>
+                    <button type="button" id="btnUpdate" onclick="return Edit();" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <script>
+        function view1SanPham(id) {
+
+            $.ajax({
+                url: '/Role/details',
+                data: { id: id },// data tên phải giống trong action
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#viewone').modal('show');
+                    console.log(result);
+                    var data = result;
+                    $('#idRole').html(data.idRole);
+                    $("#rolecode").html(data.rolecode);
+                    $("#NameChucvu").html(data.NameChucvu);
+                },
+                //error: function (data) {
+                //    alert("tạo thông tin thất bại");
+                //},
+            });
+        }
+        function Themsanpham() {//ham goi
+            $('#IR').val('');
+            $('#RC').val('');
+            $('#NCV').val('');
+
+            //$('#ms');
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();//cau lenh goi
+            $('#myModal').modal("show");
+            $('.modal-title').html('Thêm thông tin');
+        }
+        function _add() {
+            var obj = {
+                //idHoso:$('mahs').val(),
+                idRole: $('#IR').val(),
+                rolecode: $('#RC').val(),
+                NameChucvu: $('#NCV').val(),
+
+            }
+            $.ajax({
+                url: "/Role/create",
+                data: JSON.stringify(obj),
+                type: "POST",//dang dung ham post
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#myModal').modal('hide');
+                    location.reload();//chong load lai trang
+                    alert("them thanh cong");
+                    window.location = data.action;
+                },
+                error: function (errmessage) {
+                    alert(errmessage.responseText);
+                }
+            });
+        }
+
+        //
+        function getid(id) {
+            $.ajax({
+                type: 'POST',
+                url: '/Role/get',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+
+                success: function (data) {
+                    $('#IR').val(data.dt.idRole);
+                    $('#RC').val(data.dt.rolecode);
+                    $('#NCV').val(data.dt.NameChucvu);
+
+                    //
+                    $('#ms');
+                    $('#myModal').modal('show');
+                    $('#btnUpdate').show();
+                    $('#btnAdd').hide();
+                    $('.modal-title').html('Sửa bản ghi');
+
+                },
+                error: function (data) {
+
+                    showmessage("Error:", data.message);
+                },
+            });
+        }
+        function Edit() {
+            var obj = {
+                idRole: $('#IR').val(),
+                rolecode: $('#RC').val(),
+                NameChucvu: $('#NCV').val(),
+            }
+
+            $.ajax({
+                url: "/Role/edit",
+                data: JSON.stringify(obj),
+                type: "POST",//dang dung ham post
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $('#myModal').modal('hide');
+                    location.reload();//load lai trang
+                    alert("sua thanh cong");
+                    //window.location = data.action;
+                },
+
+            });
+        }
+    </script>
+</body>
+</html>
